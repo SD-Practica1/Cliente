@@ -1,0 +1,19 @@
+instalables
+pip install psutil
+
+-------------------
+para sacar el .exe
+pip install pyinstaller
+pyinstaller --onefile --console script.py
+
+----------------------------------
+abrir en linux
+abrir la terminal en la ubicacion 
+para dar permisos:
+chmod +x script.py
+para ejecutar:
+./script.py
+si esta instalado python 3:
+python3 script.py
+
+
