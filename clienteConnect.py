@@ -8,7 +8,7 @@ import time
 from datetime import datetime
 
 # URL del servidor 
-SERVER_URL = "http://localhost:8080"
+SERVER_URL = "http://localhost:8080/items"
 
 def obtener_info_sistema():
     # Obtener la hora y fecha actual
