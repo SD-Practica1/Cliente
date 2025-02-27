@@ -98,4 +98,4 @@ def enviar_datos_al_servidor(datos):
 while True:
     obtener_info_sistema()
     print("Esperando 30 segundos para la próxima actualización...\n")
-    time.sleep(30)
+    time.sleep(2)
