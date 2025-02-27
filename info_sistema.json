@@ -1,5 +1,5 @@
 {
-    "hora_fecha": "2025-02-27 08:54:13",
+    "hora_fecha": "2025-02-27 09:39:21",
     "ip_fisica": "169.254.223.235",
     "direccion_mac": "8C-47-BE-48-B9-24",
     "nombre_dispositivo": "DESKTOP-JQCSPOV",
@@ -10,15 +10,15 @@
             "tipo": "NTFS",
             "montaje": "C:\\",
             "total": "910.79 GB",
-            "libre": "495.04 GB",
-            "usado": "415.75 GB",
-            "porcentaje_usado": "45.6%"
+            "libre": "494.98 GB",
+            "usado": "415.81 GB",
+            "porcentaje_usado": "45.7%"
         }
     ],
     "ram": {
         "total": "15.8 GB",
-        "disponible": "4.81 GB",
-        "usada": "10.99 GB",
-        "porcentaje_usada": "69.6%"
+        "disponible": "4.32 GB",
+        "usada": "11.47 GB",
+        "porcentaje_usada": "72.6%"
     }
 }

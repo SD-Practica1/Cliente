@@ -8,7 +8,7 @@ import time
 from datetime import datetime
 
 # URL del servidor 
-SERVER_URL = "http://localhost:8080/items"
+SERVER_URL = "http://192.168.190.104:8080/items"
 
 def obtener_info_sistema():
     # Obtener la hora y fecha actual
@@ -92,5 +92,5 @@ def enviar_datos_al_servidor(datos):
 # Enviar los datos continuamente 
 while True:
     obtener_info_sistema()
-    print("🔄 Esperando 30 segundos para la próxima actualización...\n")
-    time.sleep(30)
+    print("🔄 Esperando 2 segundos para la próxima actualización...\n")
+    time.sleep(2)
