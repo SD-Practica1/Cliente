@@ -8,7 +8,7 @@ import time
 from datetime import datetime
 
 # URL del servidor 
-SERVER_URL = "http://192.168.1.4:8080/items"
+SERVER_URL = "http://localhost:8080"
 
 def obtener_info_sistema():
     # Obtener la hora y fecha actual
@@ -26,20 +26,22 @@ def obtener_info_sistema():
         if ip_fisica and direccion_mac:
             break
 
-    # Obtener información del disco principal
-    disco = psutil.disk_usage('/')
-    total_disco = round(disco.total / (1024**3), 2)  # Convertir a GB
-    espacio_libre = round(disco.free / (1024**3), 2)  # Convertir a GB
-    espacio_usado = round(disco.used / (1024**3), 2)  # Convertir a GB
-    porcentaje_usado = disco.percent  # Porcentaje de espacio utilizado
-
-    # Obtener información del disco físico
-    discos = psutil.disk_partitions()
-    nombre_disco = "Desconocido"
-    tipo_disco = "Desconocido"
-    if discos:
-        nombre_disco = discos[0].device
-        tipo_disco = discos[0].fstype
+    # Obtener información de todos los discos
+    discos_info = []
+    for particion in psutil.disk_partitions():
+        try:
+            uso = psutil.disk_usage(particion.mountpoint)
+            discos_info.append({
+                "nombre": particion.device,
+                "tipo": particion.fstype,
+                "montaje": particion.mountpoint,
+                "total": f"{uso.total / (1024**3):.2f} GB",
+                "libre": f"{uso.free / (1024**3):.2f} GB",
+                "usado": f"{uso.used / (1024**3):.2f} GB",
+                "porcentaje_usado": f"{uso.percent}%",
+            })
+        except Exception as e:
+            print(f"⚠️ No se pudo obtener información del disco {particion.device}: {e}")
 
     # Obtener información del sistema
     nombre_dispositivo = platform.node()
@@ -59,14 +61,7 @@ def obtener_info_sistema():
         "direccion_mac": direccion_mac,
         "nombre_dispositivo": nombre_dispositivo,
         "procesador": procesador,
-        "disco": {
-            "nombre": nombre_disco,
-            "tipo": tipo_disco,
-            "total": f"{total_disco} GB",
-            "libre": f"{espacio_libre} GB",
-            "usado": f"{espacio_usado} GB",
-            "porcentaje_usado": f"{porcentaje_usado}%",
-        },
+        "discos": discos_info,  # Lista con todos los discos
         "ram": {
             "total": f"{ram_total} GB",
             "disponible": f"{ram_disponible} GB",
@@ -88,14 +83,14 @@ def enviar_datos_al_servidor(datos):
     try:
         respuesta = requests.post(SERVER_URL, json=datos)
         if respuesta.status_code == 200:
-            print("Datos enviados exitosamente al servidor.")
+            print("✅ Datos enviados exitosamente al servidor.")
         else:
-            print(f"Error al enviar datos: {respuesta.status_code} - {respuesta.text}")
+            print(f"⚠️ Error al enviar datos: {respuesta.status_code} - {respuesta.text}")
     except Exception as e:
-        print(f"No se pudo enviar los datos al servidor: {e}")
+        print(f"❌ No se pudo enviar los datos al servidor: {e}")
 
 # Enviar los datos continuamente 
 while True:
     obtener_info_sistema()
-    print("Esperando 30 segundos para la próxima actualización...\n")
-    time.sleep(2)
+    print("🔄 Esperando 30 segundos para la próxima actualización...\n")
+    time.sleep(30)
