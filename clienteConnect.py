@@ -5,9 +5,10 @@ import psutil
 import json
 import requests
 from datetime import datetime
+import time  # Importamos time para poder usar time.sleep()
 
 # URL del servidor 
-SERVER_URL = "http://192.168.100.3:3000"
+SERVER_URL = "http://192.168.1.4:8080/items"
 
 def obtener_info_sistema():
     # Obtener la hora y fecha actual
@@ -93,5 +94,7 @@ def enviar_datos_al_servidor(datos):
     except Exception as e:
         print(f"No se pudo enviar los datos al servidor: {e}")
 
-# Ejecutar la función
-obtener_info_sistema()
+# Enviar los datos continuamente cada 2 segundos
+while True:
+    obtener_info_sistema()  # Llamamos la función para obtener y enviar la información
+    time.sleep(2)  # Espera 2 segundos antes de volver a enviar los datos

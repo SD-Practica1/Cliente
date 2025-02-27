@@ -1,21 +1,21 @@
 {
-    "hora_fecha": "2025-02-26 17:16:08",
-    "ip_fisica": "192.168.100.3",
-    "direccion_mac": "10-62-E5-C3-4B-96",
-    "nombre_dispositivo": "DESKTOP-U67H05N",
-    "procesador": "Intel64 Family 6 Model 142 Stepping 10, GenuineIntel",
+    "hora_fecha": "2025-02-26 20:37:13",
+    "ip_fisica": "169.254.223.235",
+    "direccion_mac": "8C-47-BE-48-B9-24",
+    "nombre_dispositivo": "DESKTOP-JQCSPOV",
+    "procesador": "Intel64 Family 6 Model 165 Stepping 2, GenuineIntel",
     "disco": {
         "nombre": "C:\\",
         "tipo": "NTFS",
-        "total": "796.16 GB",
-        "libre": "62.48 GB",
-        "usado": "733.68 GB",
-        "porcentaje_usado": "92.2%"
+        "total": "910.79 GB",
+        "libre": "509.62 GB",
+        "usado": "401.17 GB",
+        "porcentaje_usado": "44.0%"
     },
     "ram": {
-        "total": "11.9 GB",
-        "disponible": "3.72 GB",
-        "usada": "8.19 GB",
-        "porcentaje_usada": "68.8%"
+        "total": "15.8 GB",
+        "disponible": "4.7 GB",
+        "usada": "11.1 GB",
+        "porcentaje_usada": "70.3%"
     }
 }
