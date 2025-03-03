@@ -8,7 +8,17 @@ import time
 from datetime import datetime
 
 # URL del servidor 
-SERVER_URL = "http://192.168.190.104:8080/items"
+SERVER_URL = "http://192.168.1.3:8080/items"
+
+def convertir_a_unidad_adecuada(valor_bytes):
+    """Convierte el valor en bytes a la unidad más adecuada (MB, GB, o TB)"""
+    valor_mb = valor_bytes / (1024 ** 2)  # Convertir a MB
+    if valor_mb >= 1024 ** 2:  # Si es mayor o igual a 1 TB
+        return f"{valor_mb / (1024**2):.2f} TB"
+    elif valor_mb >= 1024:  # Si es mayor o igual a 1 GB
+        return f"{valor_mb / 1024:.2f} GB"
+    else:  # Si es menor a 1 GB
+        return f"{valor_mb:.2f} MB"
 
 def obtener_info_sistema():
     # Obtener la hora y fecha actual
@@ -35,9 +45,9 @@ def obtener_info_sistema():
                 "nombre": particion.device,
                 "tipo": particion.fstype,
                 "montaje": particion.mountpoint,
-                "total": f"{uso.total / (1024**3):.2f} GB",
-                "libre": f"{uso.free / (1024**3):.2f} GB",
-                "usado": f"{uso.used / (1024**3):.2f} GB",
+                "total": convertir_a_unidad_adecuada(uso.total),  # Usar valor en bytes
+                "libre": convertir_a_unidad_adecuada(uso.free),  # Usar valor en bytes
+                "usado": convertir_a_unidad_adecuada(uso.used),  # Usar valor en bytes
                 "porcentaje_usado": f"{uso.percent}%",
             })
         except Exception as e:
@@ -49,9 +59,9 @@ def obtener_info_sistema():
 
     # Obtener información de la RAM
     ram = psutil.virtual_memory()
-    ram_total = round(ram.total / (1024**3), 2)  # Convertir a GB
-    ram_disponible = round(ram.available / (1024**3), 2)  # Convertir a GB
-    ram_usada = round(ram.used / (1024**3), 2)  # Convertir a GB
+    ram_total = convertir_a_unidad_adecuada(ram.total)  # Usar valor en bytes
+    ram_disponible = convertir_a_unidad_adecuada(ram.available)  # Usar valor en bytes
+    ram_usada = convertir_a_unidad_adecuada(ram.used)  # Usar valor en bytes
     porcentaje_ram_usada = ram.percent
 
     # Crear diccionario con la información
@@ -63,9 +73,9 @@ def obtener_info_sistema():
         "procesador": procesador,
         "discos": discos_info,  # Lista con todos los discos
         "ram": {
-            "total": f"{ram_total} GB",
-            "disponible": f"{ram_disponible} GB",
-            "usada": f"{ram_usada} GB",
+            "total": ram_total,
+            "disponible": ram_disponible,
+            "usada": ram_usada,
             "porcentaje_usada": f"{porcentaje_ram_usada}%",
         }
     }
@@ -82,7 +92,7 @@ def obtener_info_sistema():
 def enviar_datos_al_servidor(datos):
     try:
         respuesta = requests.post(SERVER_URL, json=datos)
-        if respuesta.status_code == 200:
+        if respuesta.status_code in [200, 201]:
             print("✅ Datos enviados exitosamente al servidor.")
         else:
             print(f"⚠️ Error al enviar datos: {respuesta.status_code} - {respuesta.text}")
@@ -92,5 +102,5 @@ def enviar_datos_al_servidor(datos):
 # Enviar los datos continuamente 
 while True:
     obtener_info_sistema()
-    print("🔄 Esperando 2 segundos para la próxima actualización...\n")
-    time.sleep(2)
+    print("🔄 Esperando 5 segundos para la próxima actualización...\n")
+    time.sleep(5)
